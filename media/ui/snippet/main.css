@@ -1,0 +1,62 @@
+body {
+	background-color: transparent;
+}
+
+.snippetEntry {
+    width: 100%;
+    background: var(--vscode-badge-background);
+    margin-bottom: 1em;
+    padding: 1em;
+	cursor: pointer;
+	overflow: auto;
+	user-select: none;
+	position: relative;
+}
+
+.snippetEntry:hover {
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.snippetDescription {
+	font-size: 0.9em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.snippetCategory {
+	color: var(--vscode-textLink-foreground);
+	font-size: 0.7em;
+    padding-top: 0.25em;
+    position: relative;
+    top: 0.05em;
+}
+
+.snippetTitle {
+	font-weight: bold;
+	color: var(--vscode-textLink-foreground);
+	font-size: 1.1em;
+}
+
+#snippetList {
+	list-style: none;
+	padding: 0;
+	overflow: auto;
+    height: 95vh;
+}
+
+.snippetDocumentationSVG {
+	float: right;
+    width: 1.5em;
+    fill: var(--vscode-textBlockQuote-border);
+}
+
+.snippetDocumentation {
+	position: absolute;
+    right: 1em;
+    bottom: 0.6em;
+}
+
+.snippetDocumentation:hover > svg {
+	transition: all 0.3s;
+	fill: var(--vscode-input-foreground);
+}
