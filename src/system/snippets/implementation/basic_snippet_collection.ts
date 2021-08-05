@@ -32,7 +32,7 @@ export class BasicSnippetCollection extends SnippetCollection {
 
       // get template categorie
       var categoryTitleNode = templateCategorie.querySelector("template\\:title");
-      var categoryTitle = categoryTitleNode.querySelector("template\\:item[lang='" + language + "']").textContent;
+      var categoryTitle = categoryTitleNode?.querySelector("template\\:item[lang='" + language + "']")?.textContent ?? "";
 
       // get template nodes
       let templateNodes = templateCategorie.querySelectorAll("template\\:template");
@@ -44,19 +44,19 @@ export class BasicSnippetCollection extends SnippetCollection {
 
         // get title node
         var titleNode = templateNode.querySelector("template\\:title");
-        var title = titleNode !== null ? titleNode.querySelector("template\\:item[lang='" + language + "']").textContent : "";
+        var title = (titleNode !== null ? titleNode?.querySelector("template\\:item[lang='" + language + "']")?.textContent : "") as string;
 
         // get description node
         var descriptionNode = templateNode.querySelector("template\\:description");
-        var description = descriptionNode !== null ? descriptionNode.querySelector("template\\:item[lang='" + language + "']").textContent : "";
+        var description = (descriptionNode !== null ? descriptionNode?.querySelector("template\\:item[lang='" + language + "']")?.textContent : "") as string;
 
         // get snippet coding
         var codingNode = templateNode.querySelector("template\\:text");
-        var coding = codingNode !== null ? codingNode.textContent : "";
+        var coding = (codingNode !== null ? codingNode.textContent : "") as string;
 
         // get snippet link
         var linkNode = templateNode.querySelector("template\\:link");
-        var link = linkNode !== null ? linkNode.textContent : "";
+        var link = (linkNode !== null ? linkNode.textContent : "") as string;
 
         // add to list
         this.snippets.push(new Snippet(categoryTitle, title, description, coding, link));
