@@ -1,0 +1,109 @@
+{
+	"name": "intrexxhelper",
+	"displayName": "IntrexxHelper",
+	"description": "Helper for Intrexx development in vscode",
+	"version": "0.1.0",
+	"author": {
+		"name": "Robin Heidrich & Niklas Stegmann",
+		"email": "info@procker.io"
+	},
+	"publisher": "procker",
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "https://opensource.org/licenses/apache2.0.php"
+    }
+  ],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ProckerIO/IntrexxHelper.git"
+	},
+	"bugs": {
+		"url": "https://github.com/ProckerIO/IntrexxHelper/issues"
+	},
+	"icon": "media/intrexx_logo.png",
+	"galleryBanner": {
+		"color": "#263238",
+		"theme": "dark"
+	},
+	"engines": {
+		"vscode": "^1.58.0"
+	},
+	"categories": [
+		"Other",
+		"Snippets"
+	],
+	"keywords": [
+		"intrexx",
+		"documentation",
+		"helper",
+		"snippet",
+		"unitedplanet"
+	],
+	"preview": true,
+	"activationEvents": [
+		"onView:intrexxHelper.snippetView"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"configuration": {
+      "title": "IntrexxHelper",
+      "properties": {
+        "intrexxHelper.clientPath": {
+          "type": "string",
+          "default": "C:/Program Files/intrexx/client/",
+          "description": "Path to the Intrexx client installation"
+        },
+        "intrexxHelper.language": {
+          "type": "string",
+					"default": "en",
+					"enum": ["en", "de"],
+          "description": "Specifies the language for the documentation"
+        }
+      }
+    },
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "intrexxHelperActivity",
+					"title": "IntrexxHelper",
+					"icon": "media/intrexx_logo.svg"
+				}
+			]
+		},
+		"views": {
+			"intrexxHelperActivity": [
+				{
+					"type": "webview",
+					"id": "intrexxHelper.snippetView",
+					"name": "Snippets"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "yarn run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "yarn run compile && yarn run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.1.3",
+		"@types/jsdom": "^16.2.13",
+		"@types/mocha": "^8.2.2",
+		"@types/node": "14.x",
+		"@types/vscode": "^1.58.0",
+		"@typescript-eslint/eslint-plugin": "^4.26.0",
+		"@typescript-eslint/parser": "^4.26.0",
+		"eslint": "^7.27.0",
+		"glob": "^7.1.7",
+		"mocha": "^8.4.0",
+		"typescript": "^4.3.2",
+		"vscode-test": "^1.5.2"
+	},
+	"dependencies": {
+		"jsdom": "^16.7.0"
+	}
+}
