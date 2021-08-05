@@ -12,6 +12,8 @@ The following features are available with this extension.
 
 You can use Intrexx snippets by clicking on the icon at the activity bar. These snippets depend on the current opened file (javascript, groovy, velocity).
 
+![Snippets](https://i.gyazo.com/6ec56f096128b8577cdb31c5a9f7a071.gif)
+
 ## Requirements
 
 The Intrexx Portal Manager is required to use this extension. Some functions are using files from this software to display data from Intrexx.
