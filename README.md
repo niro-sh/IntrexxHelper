@@ -31,6 +31,7 @@ This extension contributes the following settings:
 
 ## Latest Update
 
-### [0.1.0] - 2021-08-05
+### [0.1.1] - 2021-08-07
 
-* Initial release
+* Changed workspace initialization to change language by switchting active text editor
+* Fixed $-Symbol in velocity snippets

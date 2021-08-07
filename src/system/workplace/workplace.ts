@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { Globals } from '../../globals';
 import { BasicSnippetCollection } from '../snippets/implementation/basic_snippet_collection';
 import { SnippetCollection } from "../snippets/snippet_collection";
 import { WorkplaceType } from "./workplace_type";
@@ -6,7 +7,7 @@ import { WorkplaceType } from "./workplace_type";
 export class Workplace {
 
   public workplaceType: WorkplaceType;
-  public snippetCollection: SnippetCollection;
+  public snippetCollection?: SnippetCollection;
   public configuration: vscode.WorkspaceConfiguration;
   public clientPath: string;
   public language: string;
@@ -19,9 +20,26 @@ export class Workplace {
     this.clientPath = this.configuration.get("clientPath") ?? "C:/Program Files/intrexx/client/";
     this.language = this.configuration.get("language") ?? "en";
 
+    // set default workplace type
+    this.workplaceType = WorkplaceType.ecmaScript;
+  }
+
+  /**
+   * Initialize workplace
+   *
+   * @memberof Workplace
+   */
+  public async initialize() {
     // get language id from active text editor
-    const languageId = vscode.window.activeTextEditor?.document.languageId ?? "javascript";
+    let languageId = vscode.window.activeTextEditor?.document.languageId ?? "javascript";
     console.log(`languageId: ${languageId}`);
+
+    // get file name from active text editor
+    const fileName = vscode.window.activeTextEditor?.document.fileName;
+    // check if file name ends with .vmi -> language id = velocity
+    if(fileName?.endsWith(".vmi")) {
+      languageId = "velocity";
+    }
 
     // set workplace type by language id
     switch(languageId) {
@@ -34,7 +52,6 @@ export class Workplace {
         break;
 
       case "javascript":
-      default:
         this.workplaceType = WorkplaceType.ecmaScript;
         break;
     }
@@ -44,16 +61,22 @@ export class Workplace {
       default:
         this.snippetCollection = new BasicSnippetCollection(this);
     }
+
+    // fetch snippets
+    await this.snippetCollection.fetchSnippets();
   }
 
   /**
-   * Initialize workplace
+   * Refresh all webviews
    *
    * @memberof Workplace
    */
-  public async initialize() {
-    // fetch snippets
-    await this.snippetCollection.fetchSnippets();
+  public refresh() {
+    // refresh snippets
+    Globals.snippetViewProvider.refreshSnippets();
+
+    // refresh application
+		// Globals.applicationViewProvider.refreshApplication(); TODO: application
   }
 
 }

@@ -2,9 +2,9 @@ import * as vscode from 'vscode';
 import { Globals } from '../../globals';
 import { UIHelper } from '../ui_helper';
 
-export class SnippetViewProvider implements vscode.WebviewViewProvider {
+export class ApplicationViewProvider implements vscode.WebviewViewProvider {
 
-	public static readonly viewType = 'intrexxHelper.snippetView';
+	public static readonly viewType = 'intrexxHelper.applicationView';
 	private view?: vscode.WebviewView;
 
 	constructor(private readonly extensionUri: vscode.Uri) { }
@@ -24,51 +24,29 @@ export class SnippetViewProvider implements vscode.WebviewViewProvider {
 		// set html for webview
 		webviewView.webview.html = this.getHTMLForWebview(webviewView.webview);
 
-		// send snippets to webview
-		this.refreshSnippets();
+		// send application to webview
+		this.refreshApplication();
 
 		// register message event
 		webviewView.webview.onDidReceiveMessage(data => {
 			// check message type
 			switch(data.type) {
-				case "snippetSelected": {
-					// get clicked snippet content
-					let vscodeSnippet: string = data.value.content;
-
-					// escape velocity variables
-					vscodeSnippet.match(/\$[a-zA-Z]+/)?.forEach(result => {
-						vscodeSnippet = vscodeSnippet.replace(result, result.replace("$", "\\$"));
-					});
-
-					// replace ${cursor} with $0 to define cursor position
-					vscodeSnippet = vscodeSnippet.replace("${cursor}", "$0");
-
-					// insert snippet content in text editor
-					vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`${vscodeSnippet}`));
-					break;
-				}
-
-				case "openLink": {
-					// open link
-					vscode.env.openExternal(vscode.Uri.parse(data.value));
-					break;
-				}
 			}
 		});
 	}
 
 	/**
-	 * Refresh snippets
+	 * Refresh application
 	 *
-	 * @memberof SnippetViewProvider
+	 * @memberof ApplicationViewProvider
 	 */
-	public refreshSnippets() {
+	public refreshApplication() {
 		if(this.view) {
 			this.view.show?.(true);
 
 			// send message to webview
 			this.view.webview.postMessage({
-				type: 'refreshSnippets',
+				type: 'refreshApplication',
 				value: Globals.workplace.snippetCollection?.getList()
 			});
 		}
@@ -80,16 +58,16 @@ export class SnippetViewProvider implements vscode.WebviewViewProvider {
 	 * @private
 	 * @param {vscode.Webview} webview Webview
 	 * @returns Returns HTML
-	 * @memberof SnippetViewProvider
+	 * @memberof ApplicationViewProvider
 	 */
 	private getHTMLForWebview(webview: vscode.Webview) {
 		// get script uri
-		const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'media/ui/snippet', 'main.js'));
+		const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'media/ui/application', 'main.js'));
 
 		// get style uris
 		const styleResetUri = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'media/ui', 'reset.css'));
 		const styleVSCodeUri = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'media/ui', 'vscode.css'));
-		const styleMainUri = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'media/ui/snippet', 'main.css'));
+		const styleMainUri = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'media/ui/application', 'main.css'));
 
 		// get nonce for script
 		const nonce = UIHelper.getNonce();
@@ -105,11 +83,11 @@ export class SnippetViewProvider implements vscode.WebviewViewProvider {
 				<link href="${styleVSCodeUri}" rel="stylesheet">
 				<link href="${styleMainUri}" rel="stylesheet">
 				
-				<title>IntrexxHelper: Snippets</title>
+				<title>IntrexxHelper: Application</title>
 			</head>
 			<body>
-				<input id="snippetSearch"/>
-				<ul id="snippetList">
+				<input id="applicationSearch"/>
+				<ul id="applicationList">
 				</ul>
 				<script nonce="${nonce}" src="${scriptUri}"></script>
 			</body>

@@ -2,7 +2,7 @@
 	"name": "intrexxhelper",
 	"displayName": "IntrexxHelper",
 	"description": "Helper for Intrexx development in vscode",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"author": {
 		"name": "Robin Heidrich & Niklas Stegmann",
 		"email": "info@procker.io"
